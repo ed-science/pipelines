@@ -61,12 +61,12 @@ from prefect import Flow, Parameter
 from prefect.run_configs import KubernetesRun
 from prefect.storage import GCS
 from pipelines.constants import constants
-from pipelines.bases.test_pipeline.tasks import (
+from pipelines.datasets.test_pipeline.tasks import (
     get_random_expression,
     dataframe_to_csv,
     upload_to_gcs,
 )
-from pipelines.bases.test_pipeline.schedules import every_five_minutes
+from pipelines.datasets.test_pipeline.schedules import every_five_minutes
 
 from uuid import uuid4
 
