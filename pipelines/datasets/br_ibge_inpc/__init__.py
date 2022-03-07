@@ -1,8 +1,7 @@
 """
-Imports all flows for every project so we can register all of them.
+Prefect flows for br_ibge_inpc project
 """
-# pylint: disable=W0401,W0614,W0611
 ###############################################################################
 # Automatically managed, please do not touch
 ###############################################################################
-from pipelines.datasets import *
+from .flows import *
