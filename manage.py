@@ -178,16 +178,12 @@ def check_name(input: str) -> str:
     # Must be either valid as a single word or a snake case name
     valid = single_word_valid(input) or is_snake_case(input)
 
-    # Also, must not already exist
-    valid = valid and not name_already_exists(input)
-
-    if valid:
+    if valid := valid and not name_already_exists(input):
         return input
-    else:
-        logger.error(
-            f"O nome {input} é inválido. Ele deve estar em snake_case e ser único"
-        )
-        exit(1)
+    logger.error(
+        f"O nome {input} é inválido. Ele deve estar em snake_case e ser único"
+    )
+    exit(1)
 
 
 @logger.catch
@@ -209,11 +205,10 @@ def agency_must_exist(input: str) -> str:
     agencies = [name for _, name, _ in pkgutil.iter_modules([pkgpath])]
     if input in agencies:
         return input
-    else:
-        logger.error(
-            f"A agência {input} não existe."
-        )
-        exit(1)
+    logger.error(
+        f"A agência {input} não existe."
+    )
+    exit(1)
 
 
 @logger.catch

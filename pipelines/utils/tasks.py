@@ -299,15 +299,15 @@ def get_temporal_coverage(
     if time_unit == "day":
         start_date = f"{dates[0].year}-{dates[0].month}-{dates[0].day}"
         end_date = f"{dates[-1].year}-{dates[-1].month}-{dates[-1].day}"
-        return start_date + "(" + interval + ")" + end_date
+        return f"{start_date}({interval}){end_date}"
     if time_unit == "month":
         start_date = f"{dates[0].year}-{dates[0].month}"
         end_date = f"{dates[-1].year}-{dates[-1].month}"
-        return start_date + "(" + interval + ")" + end_date
+        return f"{start_date}({interval}){end_date}"
     if time_unit == "year":
         start_date = f"{dates[0].year}"
         end_date = f"{dates[-1].year}"
-        return start_date + "(" + interval + ")" + end_date
+        return f"{start_date}({interval}){end_date}"
 
     raise ValueError("time_unit must be one of the following: day, month, year")
 
@@ -389,13 +389,12 @@ def update_publish_sql(dataset_id: str, table_id: str, dtype: dict):
     # add columns in publish.sql
     for col in columns:
         name = col["name"]
-        if name in dtype.keys():
+        if name in dtype:
             bigquery_type = dtype[name]
+        elif col["bigquery_type"] is None:
+            bigquery_type = "STRING"
         else:
-            if col["bigquery_type"] is None:
-                bigquery_type = "STRING"
-            else:
-                bigquery_type = col["bigquery_type"].upper()
+            bigquery_type = col["bigquery_type"].upper()
 
         publish_txt += f"SAFE_CAST({name} AS {bigquery_type}) {name},\n"
     ## remove last comma

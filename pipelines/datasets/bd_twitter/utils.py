@@ -25,17 +25,15 @@ def create_headers(bearer_token: str) -> dict:
     '''
     Create header to use in endpoint connection
     '''
-    headers = {"Authorization": f"Bearer {bearer_token}"}
-    return headers
+    return {"Authorization": f"Bearer {bearer_token}"}
 
 
-def create_url(start_date:str, end_date:str, max_results=10)-> Tuple[str, dict]:
+def create_url(start_date:str, end_date:str, max_results=10) -> Tuple[str, dict]:
     '''
     Creates parameterized url
     '''
-    ttid = 1184334528837574656
     # pylint: disable=C0301
-    search_url = f"https://api.twitter.com/2/users/{ttid}/tweets"  # Change to the endpoint you want to collect data from
+    search_url = 'https://api.twitter.com/2/users/1184334528837574656/tweets'
 
     # change params based on the endpoint you are using
     query_params = {
@@ -55,7 +53,7 @@ def connect_to_endpoint(url: str, headers: dict, params: dict, next_token=None) 
     '''
     params["next_token"] = next_token  # params object received from create_url function
     response = requests.request("GET", url, headers=headers, params=params)
-    print("Endpoint Response Code: " + str(response.status_code))
+    print(f"Endpoint Response Code: {str(response.status_code)}")
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
     return response.json()

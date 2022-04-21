@@ -67,7 +67,7 @@ def get_vault_secret(secret_path: str, client: hvac.Client = None) -> dict:
     """
     Returns a secret from Vault.
     """
-    vault_client = client if client else get_vault_client()
+    vault_client = client or get_vault_client()
     return vault_client.secrets.kv.read_secret_version(secret_path)["data"]
 
 

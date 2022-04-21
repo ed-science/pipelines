@@ -138,24 +138,19 @@ def crawler_metricas(
                 r = requests.get(url, auth=headeroauth)
 
                 json_response = r.json()
-                temp_dict.update(
-                    {id_field: json_response["data"]["non_public_metrics"]}
-                )
+                temp_dict[id_field] = json_response["data"]["non_public_metrics"]
             except KeyError:
                 log(json_response["errors"])
         else:
-            temp_dict.update(
-                {
-                    id_field: {
-                        "url_link_clicks": np.nan,
-                        "user_profile_clicks": np.nan,
-                        "impression_count": np.nan,
-                    }
-                }
-            )
+            temp_dict[id_field] = {
+                "url_link_clicks": np.nan,
+                "user_profile_clicks": np.nan,
+                "impression_count": np.nan,
+            }
+
 
     df2 = pd.DataFrame(temp_dict).T
-    df2.columns = ["non_public_metrics_" + k for k in df2.columns]
+    df2.columns = [f"non_public_metrics_{k}" for k in df2.columns]
 
     df = df1.set_index("id").join(df2)
 
